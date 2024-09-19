@@ -37,7 +37,7 @@
     const changeFolderBtn = document.getElementById('changeFolderBtn');
     let selectedVideoItem = null;
 
-    const MAX_CONCURRENT_PREVIEWS = 5;  // Limiter le nombre de previews à générer en parallèle
+    const MAX_CONCURRENT_PREVIEWS = 30;  // Limiter le nombre de previews à générer en parallèle
 
     // Charger le volume à partir du stockage local
     const savedVolume = localStorage.getItem('videoVolume');
