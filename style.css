@@ -1,0 +1,198 @@
+/* Style général */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4e7de;
+    color: #3b2e2f;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: 100vh;
+    flex-direction: row;
+    overflow: hidden;
+}
+
+/* Container principal */
+.main-container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+/* Style pour la barre latérale ajustable */
+.sidebar {
+    width: 20%;  /* Utilisation de pourcentage pour une adaptation automatique */
+    min-width: 200px;  /* Taille minimale pour éviter que ce soit trop étroit */
+    max-width: 300px;  /* Taille maximale pour ne pas trop étendre */
+    background-color: #efeae2;
+    padding: 20px;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    transition: width 0.3s ease;  /* Transition fluide lors du redimensionnement */
+}
+
+.sidebar h2 {
+    font-size: 20px;
+    margin-bottom: 15px;
+    color: #5a3d2b;
+}
+
+/* Ajout d'une scroll box pour la liste des vidéos */
+#videoList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex-grow: 1;
+    overflow-y: auto;
+    max-height: 100%;
+}
+
+.video-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    cursor: pointer;
+    padding: 5px;
+    transition: background-color 0.3s;
+    border-radius: 5px;
+}
+
+.video-item:hover {
+    background-color: #d9c4b3;
+}
+
+/* Thumbnail de la vidéo */
+.thumbnail {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+    object-fit: cover;  /* Garde l'aspect de l'image */
+    border-radius: 5px;
+}
+
+/* Vidéo sélectionnée */
+.video-item.selected {
+    background-color: #739274;
+    color: white;
+}
+
+/* Bouton pour changer de dossier */
+#changeFolderBtn {
+    display: block;
+    margin-bottom: 15px;
+    padding: 10px 15px;
+    background-color: #8fa58f;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+#changeFolderBtn:hover {
+    background-color: #739274;
+}
+
+/* Container pour le lecteur vidéo */
+.video-container {
+    position: relative;
+    width: 100%;
+    background-color: #000;
+    border-radius: 10px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    opacity: 1;
+}
+
+/* Style pour la vidéo elle-même */
+video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;  /* Évite les zooms et maintient le rapport d'aspect original */
+    background-color: #000;  /* Ajout d'un fond noir si la vidéo n'occupe pas tout l'espace */
+}
+
+/* Contrôles du lecteur */
+.controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #3b2e2f;
+    color: #fff;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    transition: opacity 0.3s ease-in-out;
+    opacity: 1;
+}
+
+/* Montrer les contrôles en plein écran */
+.show-controls {
+    display: flex;
+}
+
+/* Style des boutons (lecture/pause et plein écran) */
+.play-pause-btn, .fullscreen-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #8fa58f;
+    border: none;
+    color: #fff;
+    padding: 10px;
+    font-size: 20px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-style: normal;
+    margin: 0 5px;
+}
+
+.play-pause-btn:hover, .fullscreen-btn:hover {
+    background-color: #739274;
+}
+
+/* Barre de progression */
+.progress-bar {
+    flex-grow: 1;
+    margin: 0 15px;
+    height: 8px;
+    background-color: #d9c4b3;
+    border-radius: 5px;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.progress-bar::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    background-color: #fff;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+/* Contrôle du volume */
+.volume-control {
+    width: 100px;
+    height: 8px;
+    background-color: #b09a84;
+    border-radius: 5px;
+}
+
+.volume-control::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    background-color: #8fa58f;
+    border-radius: 50%;
+    cursor: pointer;
+}

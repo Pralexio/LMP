@@ -1,0 +1,32 @@
+{
+  "name": "video-player-electron",
+  "author": "Pralexio",
+  "version": "1.0.0",
+  "description": "Lecteur vidéo local avec Electron",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-packager . video-player-electron --platform=win32 --arch=x64 --icon=ico.ico --out=dist --overwrite"
+  },
+  "devDependencies": {
+    "@electron/packager": "^18.3.5",
+    "electron": "^24.0.0",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.pralexio.video-player",
+    "productName": "Video Player Electron",
+    "directories": {
+      "buildResources": "build"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "ico.ico",
+      "sign": false
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  }
+}
