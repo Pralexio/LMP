@@ -17,7 +17,7 @@
 
 L'installation de **Local Media Player** est simple et rapide. Suivez les étapes ci-dessous :
 
-1. Téléchargez l'installateur [MSI pour Windows](https://example.com/installer.msi) (lien à remplacer par celui réel).
+1. Téléchargez l'installateur [MSI pour Windows](https://github.com/Pralexio/LMP/releases) (lien à remplacer par celui réel).
 2. Lancez le fichier `installer.msi`.
 3. Suivez les instructions à l'écran pour terminer l'installation.
 
