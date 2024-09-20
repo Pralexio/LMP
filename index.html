@@ -12,177 +12,28 @@
     <aside class="sidebar">
         <h2>Vidéos disponibles</h2>
         <button id="changeFolderBtn">Changer de dossier</button>
+        <input type="text" id="searchBar" placeholder="Rechercher une vidéo...">
         <ul id="videoList"></ul>
+        <div class="footer">
+            Made By Pralexio
+            <button id="githubBtn" class="github-btn">GitHub</button>
+        </div>
     </aside>
 
     <div class="video-container">
-        <video id="videoPlayer" class="video-player"></video>
-        <div id="customControls" class="controls">
+        <video id="videoPlayer" class="video-player hidden"></video>
+        <p id="placeholderText" class="placeholder-text">Sélectionnez une vidéo pour commencer la lecture</p>
+        <div id="customControls" class="controls fade-out">
             <button id="playPause" class="play-pause-btn">▶</button>
             <input type="range" id="progressBar" class="progress-bar" min="0" value="0">
+            <span id="timeCode">00:00 / 00:00</span>
             <input type="range" id="volumeControl" class="volume-control" min="0" max="1" step="0.001" value="1">
             <button id="fullscreenBtn" class="fullscreen-btn">⛶</button>
         </div>
     </div>
 </div>
 
-<script>
-    const videoPlayer = document.getElementById('videoPlayer');
-    const playPauseBtn = document.getElementById('playPause');
-    const progressBar = document.getElementById('progressBar');
-    const volumeControl = document.getElementById('volumeControl');
-    const videoContainer = document.querySelector('.video-container');
-    const customControls = document.getElementById('customControls');
-    const videoList = document.getElementById('videoList');
-    const changeFolderBtn = document.getElementById('changeFolderBtn');
-    let selectedVideoItem = null;
-
-    const MAX_CONCURRENT_PREVIEWS = 999;  // Limiter le nombre de previews à générer en parallèle
-
-    // Charger le volume à partir du stockage local
-    const savedVolume = localStorage.getItem('videoVolume');
-    if (savedVolume !== null) {
-        videoPlayer.volume = savedVolume;
-        volumeControl.value = savedVolume;
-    }
-
-    // Sélectionner un dossier
-    changeFolderBtn.addEventListener('click', async () => {
-        const result = await window.electronAPI.selectFolder();
-        if (result && result.files.length > 0) {
-            loadVideosFromFolder(result.folderPath, result.files);
-        }
-    });
-
-    // Charger les vidéos depuis un dossier et mettre à jour la sélection
-    function loadVideosFromFolder(folderPath, files) {
-        videoList.innerHTML = '';
-
-        files.forEach((file, index) => {
-            const listItem = document.createElement('li');
-            listItem.classList.add('video-item');
-            
-            const thumbnail = document.createElement('img');
-            thumbnail.classList.add('thumbnail');
-            listItem.appendChild(thumbnail);
-
-            const videoTitle = document.createElement('span');
-            videoTitle.textContent = file;
-            listItem.appendChild(videoTitle);
-            
-            listItem.addEventListener('click', () => {
-                const videoPath = `${folderPath}/${file}`;
-                loadVideo(videoPath);
-                
-                if (selectedVideoItem) {
-                    selectedVideoItem.classList.remove('selected');
-                }
-                listItem.classList.add('selected');
-                selectedVideoItem = listItem;
-            });
-            videoList.appendChild(listItem);
-
-            // Différer la génération des thumbnails
-            if (index < MAX_CONCURRENT_PREVIEWS) {
-                generateThumbnailAsync(`${folderPath}/${file}`, thumbnail, index);
-            }
-        });
-    }
-
-    // Générer et afficher les thumbnails progressivement
-    async function generateThumbnailAsync(videoPath, imgElement, delay) {
-        await new Promise(resolve => setTimeout(resolve, delay * 100));  // Ajout d'un délai
-        generateThumbnail(videoPath, imgElement);
-    }
-
-    // Charger et jouer une vidéo
-    function loadVideo(videoPath) {
-        videoPlayer.src = videoPath;
-        videoPlayer.play();
-        updatePlayPauseIcon();
-    }
-
-    // Gestion du bouton lecture/pause
-    playPauseBtn.addEventListener('click', () => {
-        togglePlayPause();
-    });
-
-    // Ajouter l'événement de clic sur la vidéo pour mettre pause/lecture
-    videoPlayer.addEventListener('click', () => {
-        togglePlayPause();
-    });
-
-    function togglePlayPause() {
-        if (videoPlayer.paused) {
-            videoPlayer.play();
-        } else {
-            videoPlayer.pause();
-        }
-        updatePlayPauseIcon();
-    }
-
-    // Mise à jour de l'icône de lecture/pause
-    function updatePlayPauseIcon() {
-        if (videoPlayer.paused) {
-            playPauseBtn.textContent = '▶';  // Icône lecture
-        } else {
-            playPauseBtn.textContent = '❚❚';  // Icône pause
-        }
-    }
-
-    // Mise à jour du volume
-    volumeControl.addEventListener('input', () => {
-        videoPlayer.volume = volumeControl.value;
-        localStorage.setItem('videoVolume', volumeControl.value);  // Enregistrer le volume
-    });
-
-    // Plein écran
-    const fullscreenBtn = document.getElementById('fullscreenBtn');
-    fullscreenBtn.addEventListener('click', () => {
-        if (!document.fullscreenElement) {
-            videoContainer.requestFullscreen();
-        } else {
-            document.exitFullscreen();
-        }
-    });
-
-    // Afficher les contrôles en plein écran
-    videoPlayer.addEventListener('fullscreenchange', () => {
-        if (document.fullscreenElement) {
-            customControls.classList.add('show-controls');  // Montrer les contrôles en plein écran
-        } else {
-            customControls.classList.remove('show-controls');  // Masquer les contrôles après avoir quitté le plein écran
-        }
-    });
-
-    // Mise à jour de la barre de progression pendant la lecture
-    videoPlayer.addEventListener('timeupdate', () => {
-        progressBar.max = videoPlayer.duration;
-        progressBar.value = videoPlayer.currentTime;
-    });
-
-    // Gestion du seek via la barre de progression
-    progressBar.addEventListener('input', () => {
-        videoPlayer.currentTime = progressBar.value;
-    });
-
-    // Générer un thumbnail pour une vidéo
-    function generateThumbnail(videoPath, imgElement) {
-        const tempVideo = document.createElement('video');
-        tempVideo.src = videoPath;
-        tempVideo.addEventListener('loadeddata', () => {
-            tempVideo.currentTime = 2;  // Capture à 2 secondes
-        });
-        tempVideo.addEventListener('seeked', () => {
-            const canvas = document.createElement('canvas');
-            canvas.width = tempVideo.videoWidth / 4;  // Réduire la taille de l'image
-            canvas.height = tempVideo.videoHeight / 4;
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(tempVideo, 0, 0, canvas.width, canvas.height);
-            imgElement.src = canvas.toDataURL();  // Appliquer l'image de la vidéo au tag <img>
-        });
-    }
-</script>
+<script src="Renderer.js"></script>
 
 </body>
 </html>
