@@ -22,15 +22,15 @@ body {
 
 /* Style pour la barre latérale ajustable */
 .sidebar {
-    width: 20%;  /* Utilisation de pourcentage pour une adaptation automatique */
-    min-width: 200px;  /* Taille minimale pour éviter que ce soit trop étroit */
-    max-width: 300px;  /* Taille maximale pour ne pas trop étendre */
+    width: 20%;
+    min-width: 200px;
+    max-width: 300px;
     background-color: #efeae2;
     padding: 20px;
     box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
-    transition: width 0.3s ease;  /* Transition fluide lors du redimensionnement */
+    transition: width 0.3s ease;
 }
 
 .sidebar h2 {
@@ -39,14 +39,31 @@ body {
     color: #5a3d2b;
 }
 
-/* Ajout d'une scroll box pour la liste des vidéos */
+/* Barre de recherche */
+#searchBar {
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #d9c4b3;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    background-color: #f4e7de;
+    color: #3b2e2f;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+#searchBar:focus {
+    border-color: #8fa58f;
+}
+
+/* Liste des vidéos */
 #videoList {
     list-style: none;
     padding: 0;
     margin: 0;
     flex-grow: 1;
     overflow-y: auto;
-    max-height: 100%;
+    max-height: calc(100vh - 200px); /* Ajuster la hauteur de la liste */
 }
 
 .video-item {
@@ -55,12 +72,27 @@ body {
     margin-bottom: 10px;
     cursor: pointer;
     padding: 5px;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, transform 0.3s ease-in-out;
     border-radius: 5px;
+    opacity: 0;
+    animation: fadeInThumbnail 0.6s ease forwards; /* Animation d'apparition */
 }
 
 .video-item:hover {
     background-color: #d9c4b3;
+    transform: scale(1.05); /* Zoom léger lors du survol */
+}
+
+/* Animation d'apparition des miniatures */
+@keyframes fadeInThumbnail {
+    0% {
+        opacity: 0;
+        transform: scale(0.95); /* Miniature plus petite au début */
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1); /* Miniature à taille normale à la fin */
+    }
 }
 
 /* Thumbnail de la vidéo */
@@ -68,8 +100,9 @@ body {
     width: 50px;
     height: 50px;
     margin-right: 10px;
-    object-fit: cover;  /* Garde l'aspect de l'image */
+    object-fit: cover;
     border-radius: 5px;
+    transition: transform 0.3s ease-in-out;
 }
 
 /* Vidéo sélectionnée */
@@ -99,42 +132,93 @@ body {
 /* Container pour le lecteur vidéo */
 .video-container {
     position: relative;
-    width: 100%;
-    background-color: #000;
+    width: calc(80% - 40px); /* Utiliser 80% de l'espace horizontal pour la vidéo */
+    height: calc(100vh - 80px); /* La hauteur prend 100% moins l'espace des marges */
+    margin: 40px; /* Pour ajouter un peu d'espace autour de la vidéo */
+    background-color: #3b2e2f; /* Couleur café foncée */
     border-radius: 10px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    overflow: hidden;
     display: flex;
-    flex-direction: column;
-    opacity: 1;
+    justify-content: center;
+    align-items: center;
 }
 
-/* Style pour la vidéo elle-même */
-video {
+/* Style pour le lecteur vidéo lui-même */
+.video-player {
     width: 100%;
     height: 100%;
-    object-fit: contain;  /* Évite les zooms et maintient le rapport d'aspect original */
-    background-color: #000;  /* Ajout d'un fond noir si la vidéo n'occupe pas tout l'espace */
+    object-fit: contain; /* Garder le ratio original */
 }
 
-/* Contrôles du lecteur */
+/* Masquer le lecteur vidéo et les contrôles avant la sélection */
+.hidden {
+    display: none;
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; transform: scale(0.95); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+/* Transition de fade-in et fade-out entre les vidéos */
+.video-fade-in {
+    animation: fadeIn 0.5s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.95); /* Petite réduction au début de l'animation */
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1); /* Taille normale à la fin de l'animation */
+    }
+}
+
+.video-fade-out {
+    animation: fadeOut 0.5s ease-in-out forwards;
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0.95); /* Petite réduction à la fin de l'animation */
+    }
+}
+
+/* Barre de contrôle vidéo */
 .controls {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px;
+    padding: 8px 12px;
     background-color: #3b2e2f;
     color: #fff;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     position: absolute;
-    bottom: 0;
-    width: 100%;
-    transition: opacity 0.3s ease-in-out;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 75%;
     opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s;
 }
 
-/* Montrer les contrôles en plein écran */
-.show-controls {
-    display: flex;
+/* Fade-out pour la barre de contrôle */
+.fade-out {
+    opacity: 0;
+    visibility: hidden;
 }
 
 /* Style des boutons (lecture/pause et plein écran) */
@@ -145,13 +229,13 @@ video {
     background-color: #8fa58f;
     border: none;
     color: #fff;
-    padding: 10px;
-    font-size: 20px;
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
     border-radius: 50%;
     cursor: pointer;
     transition: background-color 0.3s;
-    font-style: normal;
-    margin: 0 5px;
+    margin: 0 10px; /* Pour mieux centrer les boutons */
 }
 
 .play-pause-btn:hover, .fullscreen-btn:hover {
@@ -161,27 +245,28 @@ video {
 /* Barre de progression */
 .progress-bar {
     flex-grow: 1;
-    margin: 0 15px;
     height: 8px;
     background-color: #d9c4b3;
     border-radius: 5px;
     -webkit-appearance: none;
     appearance: none;
+    margin: 0 10px;
 }
 
 .progress-bar::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 15px;
-    height: 15px;
+    width: 12px;
+    height: 12px;
     background-color: #fff;
     border-radius: 50%;
     cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 /* Contrôle du volume */
 .volume-control {
-    width: 100px;
+    width: 90px;
     height: 8px;
     background-color: #b09a84;
     border-radius: 5px;
@@ -190,9 +275,33 @@ video {
 .volume-control::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 15px;
-    height: 15px;
+    width: 12px;
+    height: 12px;
     background-color: #8fa58f;
     border-radius: 50%;
     cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Footer */
+.footer {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    color: #3b2e2f;
+    z-index: 999;
+}
+
+.github-btn {
+    margin-left: 10px;
+    padding: 5px 10px;
+    background-color: #8fa58f;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.github-btn:hover {
+    background-color: #739274;
 }
