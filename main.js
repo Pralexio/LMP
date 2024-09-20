@@ -8,11 +8,11 @@ app.on('ready', () => {
     mainWindow = new BrowserWindow({
         width: 1280,
         height: 720,
-        icon: path.join(__dirname, 'ico.ico'),
+        icon: path.join(__dirname, 'ico.ico'), // Chemin vers votre fichier ico
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
             nodeIntegration: false,
-            contextIsolation: true
+            contextIsolation: true  // Pour la sécurité
         }
     });
 
