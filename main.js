@@ -1,6 +1,7 @@
 const { app, BrowserWindow, dialog, ipcMain } = require('electron');
 const path = require('path');
 const fs = require('fs');
+const supportedFormats = ['.mp4', '.mkv', '.avi', '.mov'];
 
 let mainWindow;
 
@@ -19,7 +20,6 @@ app.on('ready', () => {
     // Supprimer la barre de menu
     mainWindow.setMenuBarVisibility(false);
 
-    // Charger le fichier index.html
     mainWindow.loadFile('index.html');
 
     // Récupérer le dernier dossier utilisé
@@ -49,11 +49,26 @@ app.on('ready', () => {
             // Sauvegarder le dernier dossier sélectionné
             fs.writeFileSync(lastFolderPath, JSON.stringify({ path: folderPath }));
 
-            // Lire les fichiers .mp4 dans le dossier sélectionné
-            const files = fs.readdirSync(folderPath).filter(file => file.endsWith('.mp4'));
+            // Lire les fichiers supportés dans le dossier sélectionné
+            const files = fs.readdirSync(folderPath).filter(file => {
+                const fileExtension = path.extname(file).toLowerCase();
+                return supportedFormats.includes(fileExtension);
+            });
 
             return { folderPath, files };
         }
         return null;
+    });
+    
+     // Charger un dossier à partir d'un chemin (utilisé pour restaurer le dernier dossier)
+     ipcMain.handle('load-folder', async (event, folderPath) => {
+        if (fs.existsSync(folderPath)) {
+            const files = fs.readdirSync(folderPath).filter(file => {
+                const fileExtension = path.extname(file).toLowerCase();
+                return supportedFormats.includes(fileExtension);
+            });
+            return { folderPath, files };
+        }
+        return { folderPath: null, files: [] };
     });
 });
