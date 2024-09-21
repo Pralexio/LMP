@@ -9,7 +9,7 @@
 
 ## Fonctionnalités
 
-- Lecture de fichiers vidéo locaux (.mp4)
+- Lecture de fichiers vidéo locaux (.mp4, .mkv, .avi, .mov)
 - Affichage des vidéos avec prévisualisation et nom dans une barre latérale
 - Interface utilisateur intuitive pour naviguer facilement dans les fichiers vidéo
 
