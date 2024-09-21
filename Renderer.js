@@ -9,7 +9,9 @@ const changeFolderBtn = document.getElementById('changeFolderBtn');
 const searchBar = document.getElementById('searchBar');
 const timeCode = document.getElementById('timeCode');
 const placeholderText = document.getElementById('placeholderText');
+const supportedFormats = ['.mp4', '.mkv', '.avi', '.mov'];
 let selectedVideoItem = null;
+let controlTimer;
 
 const MAX_CONCURRENT_PREVIEWS = 999;
 
@@ -22,6 +24,8 @@ if (savedVolume !== null) {
 changeFolderBtn.addEventListener('click', async () => {
     const result = await window.electronAPI.selectFolder();
     if (result && result.files.length > 0) {
+        localStorage.setItem('lastOpenedFolder', result.folderPath);
+
         loadVideosFromFolder(result.folderPath, result.files);
     }
 });
@@ -30,6 +34,11 @@ function loadVideosFromFolder(folderPath, files) {
     videoList.innerHTML = '';
 
     files.forEach((file, index) => {
+        const fileExtension = file.slice(file.lastIndexOf('.')).toLowerCase();
+        if(!supportedFormats.includes(fileExtension)){
+            return;
+        }
+
         const listItem = document.createElement('li');
         listItem.classList.add('video-item');
         
@@ -138,6 +147,15 @@ window.addEventListener('keydown', (event) => {
             break;
     }
 });
+window.addEventListener('DOMContentLoaded', async () => {
+    const lastOpenedFolder = localStorage.getItem('lastOpenedFolder');
+    if (lastOpenedFolder) {
+        const result = await window.electronAPI.loadFolder(lastOpenedFolder); // Attendre la promesse
+        if (result && result.files.length > 0) {
+            loadVideosFromFolder(lastOpenedFolder, result.files);
+        }
+    }
+});
 
 const fullscreenBtn = document.getElementById('fullscreenBtn');
 fullscreenBtn.addEventListener('click', () => {
@@ -184,8 +202,8 @@ function formatTime(seconds) {
 
 function showControls() {
     customControls.classList.remove('fade-out');
-    clearTimeout(controlTimer);
-    controlTimer = setTimeout(hideControls, 1500);
+    clearTimeout(controlTimer); // S'assurer que l'ancien timer est annulé
+    controlTimer = setTimeout(hideControls, 1500); // Ajuster la durée
 }
 
 function hideControls() {
