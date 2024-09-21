@@ -1,4 +1,4 @@
-# Local Media Player
+# Local Media Player 1.1.03
 
 ![Screenshot 1](https://i.ibb.co/YZ86dMd/Screen-01.png)
 ![Screenshot 2](https://i.ibb.co/GJZKB3P/Screen-02.png)
