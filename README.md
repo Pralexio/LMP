@@ -33,3 +33,8 @@ L'installation de **Local Media Player** est simple et rapide. Suivez les étape
 2. Sélectionnez un dossier contenant des fichiers vidéo.
 3. Choisissez une vidéo à partir de la barre latérale pour commencer la lecture.
 4. Utilisez les contrôles pour ajuster le volume.
+
+## Licence
+
+Ce logiciel est soumis à des conditions d'utilisation. Consultez la licence complète ici :  
+📜 [LMP - Video Player - License](https://github.com/Pralexio/Project-Licenses/blob/main/%F0%9F%93%9C%20LMP%20-%20Video%20Player%20-%20LICENSE.md)
