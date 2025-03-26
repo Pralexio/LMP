@@ -1,40 +1,64 @@
-# Local Media Player 1.1.03
+<p align="center">
+  <img src="https://raw.githubusercontent.com/Pralexio/LMP/refs/heads/main/ico.ico" alt="LMP Logo" width="200" height="200">
+</p>
 
-![Screenshot 1](https://i.ibb.co/YZ86dMd/Screen-01.png)
-![Screenshot 2](https://i.ibb.co/GJZKB3P/Screen-02.png)
+<h1 align="center">🎬 LMP - Lecteur vidéo moderne</h1>
 
-## Description
+<p align="center">
+  <b>Un lecteur vidéo simple et élégant, construit avec Electron</b>
+</p>
 
-**Local Media Player** est une application développée avec Electron, permettant de lire des fichiers vidéo locaux (comme des `.mp4`). Elle affiche tous les fichiers vidéo d'un dossier sélectionné dans une barre latérale, avec leur nom et une petite prévisualisation.
+---
 
-## Fonctionnalités
+**LMP** (Lecteur Multimédia Polyvalent) est une application open source qui combine performance, style et simplicité. Avec une interface intuitive et des fonctionnalités modernes, LMP est conçu pour offrir une expérience de lecture vidéo agréable à tous.
 
-- Lecture de fichiers vidéo locaux (.mp4, .mkv, .avi, .mov)
-- Affichage des vidéos avec prévisualisation et nom dans une barre latérale
-- Interface utilisateur intuitive pour naviguer facilement dans les fichiers vidéo
+## 🚀 Fonctionnalités
 
-## Installation
+- **Lecture fluide** : Compatible avec la majorité des formats vidéo courants.
+- **Interface moderne** : Inspirée des meilleures pratiques en design, pour une navigation claire et agréable.
+- **Technologies modernes** : Construit avec Electron et des technologies web actuelles, pour une compatibilité multiplateforme.
+- **Performances optimisées** : Profitez d’une lecture rapide et d’un comportement stable.
 
-L'installation de **Local Media Player** est simple et rapide. Suivez les étapes ci-dessous :
+## 📥 Installation
 
-1. Téléchargez l'installateur [MSI pour Windows](https://github.com/Pralexio/LMP/releases).
-2. Lancez le fichier `installer.msi`.
-3. Suivez les instructions à l'écran pour terminer l'installation.
+### Étapes
 
-## Configuration requise
+1. Rendez-vous dans la [section Releases](https://github.com/Pralexio/LMP/releases).
+2. Téléchargez le fichier `.exe` le plus récent pour Windows.
+3. Exécutez l’installateur et suivez les instructions à l’écran.
 
-- Windows 10/11
-- 100 MB d'espace disque
-- .NET Framework 4.7.2 ou plus récent
+### Prérequis
 
-## Utilisation
+Aucun prérequis particulier n’est nécessaire. Le programme fonctionne immédiatement après installation.
 
-1. Ouvrez l'application après l'installation.
-2. Sélectionnez un dossier contenant des fichiers vidéo.
-3. Choisissez une vidéo à partir de la barre latérale pour commencer la lecture.
-4. Utilisez les contrôles pour ajuster le volume.
+## 💡 Utilisation
 
-## Licence
+1. Lancez **LMP**.
+2. Sélectionnez un répértoire contenant vos vidéos depuis votre disque local.
+3. Utilisez les commandes intuitives pour contrôler la lecture et les réglages.
 
-Ce logiciel est soumis à des conditions d'utilisation. Consultez la licence complète ici :  
-📜 [LMP - Video Player - License](https://github.com/Pralexio/Project-Licenses/blob/main/%F0%9F%93%9C%20LMP%20-%20Video%20Player%20-%20LICENSE.md)
+## 📂 Arborescence
+
+```
+.
+├── ico.ico           # Logo de l'application
+├── main.js           # Fichier principal Electron
+├── package.json      # Configuration npm
+├── README.md         # Ce fichier
+└── resources/        # Fichiers nécessaires à l'application
+```
+
+## 🛠️ Contribution
+
+Les contributions sont toujours les bienvenues ! Si vous souhaitez signaler un bug ou suggérer une amélioration, ouvrez une **issue**. Pour proposer des modifications, soumettez une **pull request** en suivant les directives du projet.
+
+1. Forkez ce dépôt.
+2. Créez une branche pour vos modifications :
+   ```bash
+   git checkout -b feature/ma-nouvelle-fonctionnalité
+   ```
+3. Soumettez votre pull request.
+
+---
+
+🎉 Merci d’utiliser **LMP** ! Si ce projet vous plaît, pensez à lui donner une étoile ⭐ sur GitHub.
